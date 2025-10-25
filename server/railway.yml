@@ -17,8 +17,11 @@ socket:
   port: 7350
   max_message_size_bytes: 4096
 
-# Database address will be provided via --database.address flag from environment
-# No need to specify here - Railway will inject DATABASE_URL
+# Database connection - Railway will inject $DATABASE_URL as environment variable
+# Nakama will use this if --database.address is not provided
+database:
+  address:
+    - "$DATABASE_URL"
 
 runtime:
   js_entrypoint: "build/index.js"
