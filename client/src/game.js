@@ -4,11 +4,10 @@
 import * as nakamajs from './nakama-js.mjs';
 
 // ==================== CONFIGURATION ====================
-// Auto-detect environment (local vs Railway)
+// Auto-detect environment (local vs production)
 const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 
 // Railway production domain
-// Note: Railway handles HTTPS on standard port 443, no custom port needed
 const CONFIG = {
     serverUrl: isProduction ? 'nakama-server-production-f101.up.railway.app' : 'localhost',
     serverPort: isProduction ? '' : '7350', // Empty string for Railway (uses default HTTPS port)
