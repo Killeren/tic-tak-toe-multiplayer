@@ -64,36 +64,23 @@ async function authenticate(username) {
     try {
         showToast('Connecting to server...', 'info');
         
-        // Generate a new device ID each time to allow username changes
-        const deviceId = generateUUID();
-        console.log('Authenticating with deviceId:', deviceId, 'username:', username);
+        // Use username-based persistent device ID so same username = same user account
+        // This ensures leaderboard entries accumulate for the same username
+        const deviceId = 'device_' + username.toLowerCase().replace(/[^a-z0-9]/g, '_');
+        console.log('🔐 Authenticating with deviceId:', deviceId, 'username:', username);
         
-        // Try authentication with original username
-        try {
-            session = await client.authenticateDevice(deviceId, true, username);
-            myUserId = session.user_id;
-            myUsername = username;
-        } catch (authError) {
-            // If username conflict (409), try with a random suffix
-            if (authError.status === 409) {
-                const uniqueUsername = username + '_' + Math.floor(Math.random() * 10000);
-                console.log('Username conflict, trying with:', uniqueUsername);
-                showToast('Username taken, using: ' + uniqueUsername, 'info');
-                session = await client.authenticateDevice(deviceId, true, uniqueUsername);
-                myUserId = session.user_id;
-                myUsername = uniqueUsername;
-            } else {
-                throw authError;
-            }
-        }
+        // Authenticate - this will either login existing user or create new one
+        session = await client.authenticateDevice(deviceId, true, username);
+        myUserId = session.user_id;
+        myUsername = username;
         
-        console.log('Authenticated successfully:', session);
-        console.log('Playing as:', myUsername);
+        console.log('✅ Authenticated successfully:', session);
+        console.log('👤 Playing as:', myUsername, '(ID:', myUserId + ')');
         updateConnectionStatus(true);
         showToast('Connected as ' + myUsername, 'success');
         return true;
     } catch (error) {
-        console.error('Authentication error:', error);
+        console.error('❌ Authentication error:', error);
         console.error('Error details:', error.message, error.stack);
         showToast('Failed to connect to server: ' + (error.message || 'Unknown error'), 'error');
         updateConnectionStatus(false);
