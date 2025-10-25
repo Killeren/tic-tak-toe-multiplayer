@@ -7,12 +7,20 @@ COPY railway.yml /nakama/data/local.yml
 # Copy game server logic
 COPY build/ /nakama/data/modules/build/
 
-# Copy and set up entrypoint script
+# Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+# Rename the original nakama binary and replace it with our wrapper
+RUN mv /nakama/nakama /nakama/nakama-original
+
+# Create a wrapper script that will be called instead of nakama
+RUN echo '#!/bin/sh' > /nakama/nakama && \
+    echo 'exec /entrypoint.sh "$@"' >> /nakama/nakama && \
+    chmod +x /nakama/nakama
 
 # Expose ports
 EXPOSE 7349 7350 7351
 
-# Use our entrypoint script that will handle DATABASE_URL
-ENTRYPOINT ["/entrypoint.sh"]
+# The Nakama image's default ENTRYPOINT will now call our wrapper
+# which will then call our entrypoint.sh
