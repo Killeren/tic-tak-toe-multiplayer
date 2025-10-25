@@ -1,8 +1,8 @@
 # Use official Nakama image
 FROM heroiclabs/nakama:3.17.1
 
-# Copy custom configuration
-COPY local.yml /nakama/data/local.yml
+# Copy Railway production configuration
+COPY railway.yml /nakama/data/railway.yml
 
 # Copy game server logic
 COPY build/ /nakama/data/modules/build/

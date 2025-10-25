@@ -1,0 +1,33 @@
+# Railway production configuration for Nakama
+name: nakama-railway
+data_dir: "./data/"
+
+logger:
+  level: "info"
+  stdout: true
+  file: ""
+
+console:
+  port: 7351
+  username: "admin"
+  password: "password"  # TODO: Change for production!
+  
+socket:
+  server_key: "defaultkey"  # TODO: Change for production!
+  port: 7350
+  max_message_size_bytes: 4096
+
+# Database address will be provided via --database.address flag from environment
+# No need to specify here - Railway will inject DATABASE_URL
+
+runtime:
+  js_entrypoint: "build/index.js"
+
+session:
+  encryption_key: "defaultencryptionkey"  # TODO: Change for production!
+  token_expiry_sec: 7200
+
+match:
+  input_queue_size: 128
+  call_queue_size: 128
+  join_attempt_queue_size: 128
