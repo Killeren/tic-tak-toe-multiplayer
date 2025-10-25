@@ -10,5 +10,7 @@ COPY build/ /nakama/data/modules/build/
 # Expose ports
 EXPOSE 7349 7350 7351
 
-# Let Nakama start normally - it will read DATABASE_URL from environment
-# The Nakama base image already has the right ENTRYPOINT
+# Use shell form to allow environment variable expansion
+# Railway will inject DATABASE_URL environment variable
+CMD /nakama/nakama migrate up --database.address "${DATABASE_URL}" && \
+    /nakama/nakama --config /nakama/data/local.yml --database.address "${DATABASE_URL}"
