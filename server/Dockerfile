@@ -4,6 +4,9 @@ FROM heroiclabs/nakama:3.17.1
 # Copy Railway production configuration
 COPY railway.yml /nakama/data/railway.yml
 
+# Also copy as local.yml to satisfy Nakama's default config search
+COPY railway.yml /nakama/data/local.yml
+
 # Copy game server logic
 COPY build/ /nakama/data/modules/build/
 

@@ -18,11 +18,11 @@ echo "✓ Database URL configured: ${DATABASE_URL%%@*}@***"
 # Debug: Check if config file exists
 echo ""
 echo "Checking configuration files..."
-if [ -f "/nakama/data/railway.yml" ]; then
-    echo "✓ Found /nakama/data/railway.yml"
-    ls -lh /nakama/data/railway.yml
+if [ -f "/nakama/data/local.yml" ]; then
+    echo "✓ Found /nakama/data/local.yml"
+    ls -lh /nakama/data/local.yml
 else
-    echo "✗ ERROR: /nakama/data/railway.yml not found!"
+    echo "✗ ERROR: /nakama/data/local.yml not found!"
     echo "Files in /nakama/data/:"
     ls -la /nakama/data/ || echo "Directory does not exist!"
     exit 1
@@ -55,12 +55,11 @@ fi
 echo "✓ Database migrations completed successfully"
 
 # Start Nakama
-echo ""
 echo "========================================="
 echo "Starting Nakama server..."
-echo "Config: /nakama/data/railway.yml"
+echo "Config: /nakama/data/local.yml"
 echo "Database: ${DATABASE_URL%%@*}@***"
 echo "========================================="
 echo ""
 
-exec /nakama/nakama --config /nakama/data/railway.yml --database.address "$DATABASE_URL"
+exec /nakama/nakama --config /nakama/data/local.yml --database.address "$DATABASE_URL"
