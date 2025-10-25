@@ -7,10 +7,12 @@ COPY railway.yml /nakama/data/local.yml
 # Copy game server logic
 COPY build/ /nakama/data/modules/build/
 
+# Copy and set up entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Expose ports
 EXPOSE 7349 7350 7351
 
-# Use shell form to allow environment variable expansion
-# Railway will inject DATABASE_URL environment variable
-CMD /nakama/nakama migrate up --database.address "${DATABASE_URL}" && \
-    /nakama/nakama --config /nakama/data/local.yml --database.address "${DATABASE_URL}"
+# Use our entrypoint script that will handle DATABASE_URL
+ENTRYPOINT ["/entrypoint.sh"]
