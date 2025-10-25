@@ -3,17 +3,33 @@
 
 set -e  # Exit on error
 
-echo "========================================="
-echo "Starting Nakama on Railway"
-echo "========================================="
+echo "==========================================="
+echo "🚀 Starting Nakama on Railway"
+echo "==========================================="
+echo ""
+
+# Debug: Print all environment variables (be careful with sensitive data)
+echo "Environment check:"
+echo "  - HOME: $HOME"
+echo "  - PATH: $PATH"
+echo "  - PWD: $(pwd)"
+echo ""
 
 # Check if DATABASE_URL is set
 if [ -z "$DATABASE_URL" ]; then
-    echo "ERROR: DATABASE_URL environment variable is not set!"
+    echo "❌ ERROR: DATABASE_URL environment variable is not set!"
+    echo ""
+    echo "Available environment variables:"
+    env | grep -i database || echo "No DATABASE related variables found"
+    echo ""
+    echo "Please set DATABASE_URL in Railway dashboard:"
+    echo "  1. Go to your Nakama service"
+    echo "  2. Click 'Variables' tab"
+    echo "  3. Add reference to PostgreSQL DATABASE_URL"
     exit 1
 fi
 
-echo "✓ Database URL configured: ${DATABASE_URL%%@*}@***"
+echo "✅ Database URL configured: ${DATABASE_URL%%@*}@***"
 
 # Debug: Check if config file exists
 echo ""

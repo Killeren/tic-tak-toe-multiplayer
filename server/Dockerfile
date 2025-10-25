@@ -11,12 +11,13 @@ COPY railway.yml /nakama/data/local.yml
 COPY build/ /nakama/data/modules/build/
 
 # Copy startup script
-COPY start-railway.sh /nakama/start-railway.sh
-RUN chmod +x /nakama/start-railway.sh
+COPY start-railway.sh /start-railway.sh
+RUN chmod +x /start-railway.sh
 
 # Expose ports
 EXPOSE 7349 7350 7351
 
-# Override the entrypoint to use our startup script
-ENTRYPOINT ["/nakama/start-railway.sh"]
-CMD []
+# Completely override both ENTRYPOINT and CMD
+# Use shell form to ensure our script runs
+ENTRYPOINT ["/bin/bash"]
+CMD ["/start-railway.sh"]
