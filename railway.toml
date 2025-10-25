@@ -1,0 +1,8 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "server/Dockerfile"
+
+[deploy]
+startCommand = "/nakama/nakama --config /nakama/data/local.yml"
+healthcheckPath = "/"
+healthcheckTimeout = 100

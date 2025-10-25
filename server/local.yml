@@ -16,5 +16,9 @@ socket:
   port: 7350
   max_message_size_bytes: 4096
 
+database:
+  address:
+    - "root:localdb@postgres:5432/nakama"
+
 runtime:
   js_entrypoint: "build/index.js"
