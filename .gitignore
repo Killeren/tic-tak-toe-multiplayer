@@ -5,7 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Build output
-server/build/
+# server/build/  # Keep this for Railway deployment
 dist/
 *.js.map
 
