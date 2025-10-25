@@ -17,5 +17,6 @@ RUN chmod +x /nakama/start-railway.sh
 # Expose ports
 EXPOSE 7349 7350 7351
 
-# Start with our custom script
-CMD ["/nakama/start-railway.sh"]
+# Override the entrypoint to use our startup script
+ENTRYPOINT ["/nakama/start-railway.sh"]
+CMD []
