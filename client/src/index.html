@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Multiplayer Tic-Tac-Toe</h1>
+        
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen">
+            <div class="login-card">
+                <h2>Welcome!</h2>
+                <p>Enter your username to start playing</p>
+                <input type="text" id="usernameInput" placeholder="Enter username" maxlength="20" />
+                <button id="findMatchBtn" class="primary-btn">Find Match</button>
+                <div id="connectionStatus" class="status-indicator">
+                    <span class="dot"></span>
+                    <span class="text">Not connected</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Searching Screen -->
+        <div id="searchingScreen" class="screen hidden">
+            <div class="searching-card">
+                <h2>Searching for opponent...</h2>
+                <div class="spinner"></div>
+                <p>Please wait while we find you a match</p>
+                <button id="cancelSearchBtn" class="secondary-btn">Cancel</button>
+            </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen hidden">
+            <div class="game-header">
+                <div class="player-info">
+                    <div class="player-card me">
+                        <span class="player-label">You</span>
+                        <span class="player-mark" id="playerMark">-</span>
+                        <span class="player-name" id="playerName">-</span>
+                    </div>
+                    <div class="vs-divider">VS</div>
+                    <div class="player-card opponent">
+                        <span class="player-label">Opponent</span>
+                        <span class="player-mark" id="opponentMark">-</span>
+                        <span class="player-name" id="opponentName">Waiting...</span>
+                    </div>
+                </div>
+                
+                <div class="turn-indicator" id="turnIndicator">
+                    <div class="indicator-dot"></div>
+                    <span>Waiting for game to start...</span>
+                </div>
+            </div>
+            
+            <div id="board" class="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+            
+            <div class="game-controls">
+                <button id="newGameBtn" class="primary-btn hidden">New Game</button>
+                <button id="quitBtn" class="secondary-btn">Quit</button>
+            </div>
+        </div>
+        
+        <!-- Leaderboard Section -->
+        <div id="leaderboard" class="leaderboard-section">
+            <h2>🏆 Leaderboard</h2>
+            <button id="refreshLeaderboardBtn" class="refresh-btn">↻ Refresh</button>
+            <ul id="leaderboardList">
+                <li class="loading">Loading leaderboard...</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+    
+    <!-- Game Logic (ES Module) -->
+    <script type="module" src="game.js"></script>
+</body>
+</html>

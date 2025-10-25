@@ -1,0 +1,25 @@
+{
+  "name": "tictactoe-nakama-server",
+  "version": "1.0.0",
+  "description": "Server-authoritative multiplayer Tic-Tac-Toe with Nakama",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "npx tsc && docker-compose up",
+    "start": "docker-compose up -d",
+    "stop": "docker-compose down",
+    "logs": "docker-compose logs -f nakama"
+  },
+  "keywords": [
+    "nakama",
+    "multiplayer",
+    "tictactoe",
+    "game"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "@types/node": "^20.0.0"
+  }
+}

@@ -1,0 +1,20 @@
+name: nakama-node
+data_dir: "./data/"
+
+logger:
+  level: "debug"
+  stdout: true
+  file: ""
+
+console:
+  port: 7351
+  username: "admin"
+  password: "password"
+  
+socket:
+  server_key: "defaultkey"
+  port: 7350
+  max_message_size_bytes: 4096
+
+runtime:
+  js_entrypoint: "build/index.js"
