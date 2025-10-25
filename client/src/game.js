@@ -561,19 +561,29 @@ function resetBoard() {
 async function loadLeaderboard() {
     try {
         if (!client || !session) {
-            console.log('Cannot load leaderboard - not connected yet');
+            console.log('⚠️ Cannot load leaderboard - not connected yet');
             leaderboardList.innerHTML = '<li class="loading">Connect to see leaderboard</li>';
             return;
         }
         
+        console.log('🏆 Loading leaderboard...');
         leaderboardList.innerHTML = '<li class="loading">Loading leaderboard...</li>';
         
         const limit = 10;
         const records = await client.listLeaderboardRecords(session, 'tictactoe_wins', [], limit);
         
+        console.log('📊 Leaderboard records received:', records);
+        console.log('📊 Number of records:', records.records ? records.records.length : 0);
+        
+        if (records.records && records.records.length > 0) {
+            records.records.forEach((record, index) => {
+                console.log(`#${index + 1} - Username: "${record.username}", Score: ${record.score}, Subscore: ${record.subscore}`);
+            });
+        }
+        
         displayLeaderboard(records.records);
     } catch (error) {
-        console.error('Error loading leaderboard:', error);
+        console.error('❌ Error loading leaderboard:', error);
         leaderboardList.innerHTML = '<li class="loading">Failed to load leaderboard</li>';
     }
 }
@@ -582,15 +592,19 @@ function displayLeaderboard(records) {
     leaderboardList.innerHTML = '';
     
     if (!records || records.length === 0) {
+        console.log('ℹ️ No leaderboard records to display');
         leaderboardList.innerHTML = '<li class="loading">No players yet. Be the first!</li>';
         return;
     }
+    
+    console.log('✅ Displaying ' + records.length + ' leaderboard entries');
     
     records.forEach((record, index) => {
         const li = document.createElement('li');
         
         const leftDiv = document.createElement('div');
-        leftDiv.innerHTML = `<span class="rank">#${index + 1}</span> ${record.username || 'Anonymous'}`;
+        const username = record.username || 'Anonymous';
+        leftDiv.innerHTML = `<span class="rank">#${index + 1}</span> ${username}`;
         
         const rightDiv = document.createElement('div');
         rightDiv.className = 'stats';
@@ -603,6 +617,8 @@ function displayLeaderboard(records) {
         li.appendChild(leftDiv);
         li.appendChild(rightDiv);
         leaderboardList.appendChild(li);
+        
+        console.log(`  #${index + 1}: ${username} - ${wins}W ${losses}L`);
     });
 }
 

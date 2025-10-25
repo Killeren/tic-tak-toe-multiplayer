@@ -150,7 +150,9 @@ function matchLeave(ctx, logger, nk, dispatcher, tick, state, presences) {
                     state.winner = remainingPlayers[0];
                     // Update leaderboard for the winner
                     try {
-                        nk.leaderboardRecordWrite(LEADERBOARD_ID, state.winner, '', 1, 0, null, null);
+                        var winnerUsername = state.players[state.winner] ? state.players[state.winner].username : 'Anonymous';
+                        logger.info('🏆 Updating leaderboard for winner (opponent left): ' + winnerUsername + ' (ID: ' + state.winner + ')');
+                        nk.leaderboardRecordWrite(LEADERBOARD_ID, state.winner, winnerUsername, 1, 0, null, null);
                     } catch (error) {
                         logger.error('Failed to update leaderboard: ' + error);
                     }
@@ -218,7 +220,9 @@ function matchLoop(ctx, logger, nk, dispatcher, tick, state, messages) {
                         // Update leaderboard
                         if (state.winner) {
                             try {
-                                nk.leaderboardRecordWrite(LEADERBOARD_ID, state.winner, '', 1, 0, null, null);
+                                var winnerUsername = state.players[state.winner] ? state.players[state.winner].username : 'Anonymous';
+                                logger.info('🏆 Updating leaderboard for winner: ' + winnerUsername + ' (ID: ' + state.winner + ')');
+                                nk.leaderboardRecordWrite(LEADERBOARD_ID, state.winner, winnerUsername, 1, 0, null, null);
                             } catch (error) {
                                 logger.error('Failed to update leaderboard: ' + error);
                             }

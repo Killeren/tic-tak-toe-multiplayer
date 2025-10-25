@@ -224,10 +224,21 @@ const matchLeave: nkruntime.MatchLeaveFunction = function (
     if (Object.keys(state.players).length < 2 && state.gameStatus === 'playing') {
         state.gameStatus = 'finished';
         
+        // Award win to remaining player if game was active
+        const remainingPlayerIds = Object.keys(state.players);
+        if (remainingPlayerIds.length === 1) {
+            const winnerId = remainingPlayerIds[0];
+            const winner = state.players[winnerId];
+            if (winner) {
+                logger.info('🏆 Awarding win to remaining player: ' + winner.username);
+                updateLeaderboard(nk, logger, winnerId, winner.username, true);
+            }
+        }
+        
         const message = JSON.stringify({
             type: 'game_ended',
             reason: 'Player disconnected',
-            winner: null
+            winner: remainingPlayerIds.length === 1 ? remainingPlayerIds[0] : null
         });
         dispatcher.broadcastMessage(OpCode.GAME_OVER, message);
         
