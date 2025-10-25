@@ -10,20 +10,21 @@ Your code is now on Railway! Follow these steps to complete the deployment:
 
 ## Step 2: Add Nakama Server Service
 
-1. Click **"New"** → **"Empty Service"**
-2. Name it: `nakama-server`
-3. Go to **Settings** → **Source** → Connect to your GitHub repo
-4. Under **Root Directory**: Enter `server`
-5. Under **Custom Start Command**: Enter:
-   ```
-   /nakama/nakama --config /nakama/data/local.yml
-   ```
+1. Click **"New"** → **"GitHub Repo"**
+2. Select your `tic-tak-toe-multiplayer` repository
+3. Railway will detect the Dockerfile automatically
+4. Name it: `nakama-server`
+5. Go to **Settings** → **General**:
+   - **Root Directory**: `server`
+   - **Dockerfile Path**: `Dockerfile`
 
 ### Environment Variables for Nakama:
 Click **"Variables"** tab and add:
 ```
 DATABASE_URL=${{Postgres.DATABASE_URL}}
 ```
+
+⚠️ **Important**: Make sure PostgreSQL is created FIRST before deploying Nakama!
 
 ## Step 3: Get Your Nakama Domain
 
