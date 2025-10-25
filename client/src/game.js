@@ -219,28 +219,35 @@ async function startMatchmaking() {
         
         // Handle when match is found
         socket.onmatchmakermatched = async (matched) => {
+            console.log('🎮 MATCHMAKER MATCHED!');
             console.log('Match found:', matched);
+            console.log('Match ID:', matched.match_id);
+            console.log('Token:', matched.token);
             console.log('Match details:', JSON.stringify(matched, null, 2));
             showToast('Match found! Joining game...', 'success');
             
             try {
                 // Small delay to ensure server is ready
+                console.log('⏳ Waiting 100ms before joining...');
                 await new Promise(resolve => setTimeout(resolve, 100));
                 
                 // Join the match
-                console.log('Attempting to join match:', matched.match_id);
+                console.log('🚀 Attempting to join match:', matched.match_id);
                 const match = await socket.joinMatch(matched.match_id);
+                
+                console.log('📥 Join match response:', match);
                 
                 if (!match) {
                     throw new Error('Join match returned null');
                 }
                 
                 currentMatch = match;
-                console.log('Successfully joined match:', JSON.stringify(match, null, 2));
+                console.log('✅ Successfully joined match:', JSON.stringify(match, null, 2));
+                console.log('🎯 Calling setupGame...');
                 
                 setupGame(match);
             } catch (error) {
-                console.error('Error joining match:', error);
+                console.error('❌ Error joining match:', error);
                 console.error('Error details:', error.message, error.stack);
                 showToast('Failed to join match: ' + error.message, 'error');
                 
@@ -267,10 +274,14 @@ function cancelMatchmaking() {
 // ==================== GAME SETUP ====================
 
 function setupGame(match) {
+    console.log('🎮 SETUP GAME CALLED');
     console.log('Setting up game with match:', match);
     console.log('Match self:', match.self);
     console.log('Match presences:', match.presences);
+    
+    console.log('📺 Switching to game screen...');
     showScreen(gameScreen);
+    console.log('✅ Game screen shown');
     
     // Build full list of presences including self
     let allPresences = [];
