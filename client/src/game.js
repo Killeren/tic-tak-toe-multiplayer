@@ -7,12 +7,11 @@ import * as nakamajs from './nakama-js.mjs';
 // Auto-detect environment (local vs Railway)
 const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 
-// For Railway: You need to get the PUBLIC domain from Railway dashboard
-// Settings → Networking → Generate Domain
-// Replace 'YOUR-NAKAMA-DOMAIN' with your actual Railway public domain
+// Railway production domain
+// Note: Railway handles HTTPS on standard port 443, no custom port needed
 const CONFIG = {
-    serverUrl: isProduction ? 'YOUR-NAKAMA-DOMAIN.up.railway.app' : 'localhost',
-    serverPort: isProduction ? '443' : '7350',
+    serverUrl: isProduction ? 'nakama-server-production-f101.up.railway.app' : 'localhost',
+    serverPort: isProduction ? '' : '7350', // Empty string for Railway (uses default HTTPS port)
     serverKey: 'defaultkey',
     useSSL: isProduction
 };
