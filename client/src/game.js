@@ -549,7 +549,7 @@ async function loadLeaderboard() {
     try {
         if (!client || !session) {
             console.log('⚠️ Cannot load leaderboard - not connected yet');
-            leaderboardList.innerHTML = '<li class="loading">Connect to see leaderboard</li>';
+            leaderboardList.innerHTML = '<li class="loading">Login to see leaderboard</li>';
             return;
         }
         
@@ -678,6 +678,9 @@ findMatchBtn.addEventListener('click', async () => {
     
     const authenticated = await authenticate(username);
     if (authenticated) {
+        // Load leaderboard after successful authentication
+        loadLeaderboard();
+        
         const connected = await connectSocket();
         if (connected) {
             await startMatchmaking();
@@ -729,6 +732,9 @@ usernameInput.addEventListener('keypress', (e) => {
 window.addEventListener('load', () => {
     console.log('=== Tic-Tac-Toe Multiplayer Client Loaded ===');
     initNakama();
+    
+    // Try to load leaderboard on page load (will show "Connect to see leaderboard" if no session)
+    loadLeaderboard();
     
     // Set focus to username input
     usernameInput.focus();
